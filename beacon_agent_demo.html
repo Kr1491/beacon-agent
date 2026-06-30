@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Beacon | Opportunity Agent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Noto+Serif+Devanagari:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF6EE;
+    --ink:#2B2118;
+    --marigold:#E08E1D;
+    --teal:#1F6F6B;
+    --stone:#D8CBB3;
+    --card:#FFFCF5;
+    --good:#3D7A4F;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px;}
+
+  header{display:flex;align-items:center;gap:18px;margin-bottom:8px;}
+  .post{
+    width:54px;height:54px;border-radius:8px;
+    background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;flex-shrink:0;
+  }
+  h1{
+    font-family:'Fraunces',serif;font-weight:700;font-size:34px;margin:0;
+    letter-spacing:-0.01em;
+  }
+  .tagline{font-size:15px;color:#6b5d4d;margin:4px 0 0;}
+  .lede{
+    margin:28px 0 36px;padding:18px 20px;border-left:3px solid var(--marigold);
+    background:var(--card);border-radius:0 8px 8px 0;font-size:15px;line-height:1.6;color:#473a2c;
+  }
+
+  .panel{
+    background:var(--card);border:1px solid var(--stone);border-radius:14px;
+    padding:26px;margin-bottom:30px;
+  }
+  .panel h2{font-family:'Fraunces',serif;font-size:20px;margin:0 0 18px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#8a7a64;font-weight:600;display:block;margin-bottom:6px;}
+  select, input{
+    width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--stone);
+    background:#fff;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);
+  }
+  button.run{
+    margin-top:20px;width:100%;padding:14px;border:none;border-radius:9px;
+    background:var(--marigold);color:#2B2118;font-weight:700;font-size:15px;
+    cursor:pointer;transition:transform .12s ease;font-family:'Inter',sans-serif;
+  }
+  button.run:hover{transform:translateY(-1px);}
+  button.run:disabled{opacity:.5;cursor:default;transform:none;}
+
+  .trace{margin:24px 0;display:none;}
+  .trace.show{display:block;}
+  .step{
+    display:flex;gap:12px;align-items:flex-start;padding:10px 0;
+    border-bottom:1px dashed var(--stone);font-size:13.5px;color:#5b4d3c;
+    opacity:0;transform:translateY(4px);transition:opacity .35s ease, transform .35s ease;
+  }
+  .step.in{opacity:1;transform:none;}
+  .step .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;}
+  .step b{color:var(--ink);}
+
+  .results{display:none;}
+  .results.show{display:block;}
+  .results h2{font-family:'Fraunces',serif;font-size:21px;margin:30px 0 14px;}
+  .card{
+    background:var(--card);border:1px solid var(--stone);border-radius:12px;
+    padding:20px 22px;margin-bottom:14px;position:relative;
+  }
+  .card .top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;}
+  .card h3{font-family:'Fraunces',serif;font-size:18px;margin:0 0 2px;}
+  .card .local{font-size:15px;color:var(--teal);margin:0 0 10px;font-weight:500;}
+  .badge{
+    background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;
+    border-radius:99px;white-space:nowrap;letter-spacing:.02em;
+  }
+  .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:#7a6c58;margin:8px 0 12px;}
+  .why{
+    font-size:13.5px;background:#fff;border:1px solid var(--stone);border-radius:8px;
+    padding:10px 12px;color:#473a2c;line-height:1.5;
+  }
+  .why b{color:var(--good);}
+  footer{margin-top:50px;border-top:1px solid var(--stone);padding-top:18px;font-size:12.5px;color:#8a7a64;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="post">B</div>
+    <div>
+      <h1>Beacon</h1>
+      <p class="tagline">An agent that finds, ranks, translates, and explains opportunities — for students anywhere the listings don't reach.</p>
+    </div>
+  </header>
+
+  <div class="lede">
+    Hackathons, internships, and youth programs exist all over the world — but most listings are posted in one or two dominant languages, on platforms that skew toward students already in well-connected cities and institutions. Students in rural districts, smaller towns, and underserved regions of any country are routinely left out, not for lack of ability, but for lack of someone translating and filtering on their behalf. Beacon is an agent that does that work automatically.
+  </div>
+
+  <div class="panel">
+    <h2>Tell the agent about yourself</h2>
+    <div class="grid">
+      <div>
+        <label>Region</label>
+        <select id="region">
+          <option value="south-asia">South Asia</option>
+          <option value="latin-america">Latin America</option>
+          <option value="east-africa">East Africa</option>
+          <option value="southeast-asia">Southeast Asia</option>
+        </select>
+      </div>
+      <div>
+        <label>Preferred Language</label>
+        <select id="lang">
+          <option value="hi">Hindi</option>
+          <option value="es">Spanish</option>
+          <option value="sw">Swahili</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <div>
+        <label>Education Level</label>
+        <select id="edu">
+          <option value="ug">Undergraduate</option>
+          <option value="diploma">Diploma / Vocational</option>
+          <option value="12th">Secondary / Pre-university</option>
+        </select>
+      </div>
+      <div>
+        <label>Field of Interest</label>
+        <select id="field">
+          <option value="cs">Computer Science / IT</option>
+          <option value="agri">Agriculture & Allied</option>
+          <option value="design">Design / Creative</option>
+          <option value="business">Business / Commerce</option>
+        </select>
+      </div>
+    </div>
+    <button class="run" id="runBtn" onclick="runAgent()">Find opportunities for me</button>
+  </div>
+
+  <div class="trace" id="trace"></div>
+
+  <div class="results" id="results">
+    <h2>Recommended for you</h2>
+    <div id="cards"></div>
+  </div>
+
+  <footer>
+    <b>How this demo works:</b> this is a rule-based simulation of the agent pipeline for demo purposes — the filtering, ranking, and "why this matches you" reasoning run on a small local logic layer instead of a live LLM call, and translated text is pulled from a pre-built table rather than a live translation API. In the production build, the same four steps (Fetch → Filter & Rank → Translate & Simplify → Explain) are handled by an LLM agent that pulls live listings from global and regional opportunity platforms, reasons over each student's profile to score relevance, and generates the plain-language explanation per result in their language.
+  </footer>
+</div>
+
+<script>
+const DB = [
+  {
+    id:1, title:"Global Open Source Mentorship Program", local:{hi:"वैश्विक ओपन सोर्स मेंटरशिप कार्यक्रम", es:"Programa Global de Mentoría en Código Abierto", sw:"Mpango wa Kimataifa wa Ushauri wa Open Source"},
+    field:"cs", edu:["ug","diploma"], type:"Open Source Program", remote:true,
+    deadline:"Rolling entry",
+    why:{en:"Beginner-friendly open source program with mentors — no prior contribution experience required.",
+         hi:"शुरुआती लोगों के लिए उपयुक्त ओपन सोर्स प्रोग्राम, मेंटर्स के साथ — पहले के अनुभव की ज़रूरत नहीं।",
+         es:"Programa de código abierto apto para principiantes, con mentores — no se requiere experiencia previa.",
+         sw:"Mpango wa open source unaofaa kwa wanaoanza, wenye washauri — hauhitaji uzoefu wa awali."}
+  },
+  {
+    id:2, title:"National Student Hackathon", local:{hi:"राष्ट्रीय छात्र हैकाथॉन", es:"Hackathon Nacional Estudiantil", sw:"Hekathoni ya Kitaifa ya Wanafunzi"},
+    field:"cs", edu:["ug","diploma"], type:"National Hackathon", remote:false,
+    deadline:"Opens annually",
+    why:{en:"Government- or university-run hackathon with problem statements reserved for rural development and agri-tech — strong fit for first-time hackers from smaller institutions.",
+         hi:"सरकार या विश्वविद्यालय द्वारा आयोजित हैकाथॉन, ग्रामीण विकास और कृषि-तकनीक के लिए समस्याएं शामिल।",
+         es:"Hackathon organizado por el gobierno o universidades, con temas reservados para desarrollo rural y agritech.",
+         sw:"Hekathoni inayoendeshwa na serikali au chuo kikuu, yenye matatizo yaliyotengwa kwa maendeleo ya vijijini."}
+  },
+  {
+    id:3, title:"Youth Skills & Paid Internship Scheme", local:{hi:"युवा कौशल और सवेतन इंटर्नशिप योजना", es:"Programa de Pasantías Pagadas para Jóvenes", sw:"Mpango wa Mafunzo ya Kazi Yenye Malipo kwa Vijana"},
+    field:"business", edu:["ug","diploma"], type:"Govt Internship Scheme", remote:false,
+    deadline:"Rolling entry",
+    why:{en:"Government-backed paid internship scheme with placements specifically reserved for students outside major cities.",
+         hi:"सरकार समर्थित सवेतन इंटर्नशिप योजना, बड़े शहरों के बाहर के छात्रों के लिए आरक्षित सीटें।",
+         es:"Programa de pasantías pagadas respaldado por el gobierno, con plazas reservadas para estudiantes fuera de las grandes ciudades.",
+         sw:"Mpango wa mafunzo ya kazi wenye malipo unaoungwa mkono na serikali, wenye nafasi maalum kwa wanafunzi nje ya miji mikuu."}
+  },
+  {
+    id:4, title:"Digital Agriculture Fellowship", local:{hi:"डिजिटल कृषि फेलोशिप", es:"Beca de Agricultura Digital", sw:"Ufadhili wa Kilimo cha Kidijitali"},
+    field:"agri", edu:["ug","diploma","12th"], type:"Fellowship", remote:true,
+    deadline:"Closes in 18 days",
+    why:{en:"Remote fellowship pairing students with agri-tech ventures working on regional crop and weather tools — agriculture background preferred but not required.",
+         hi:"दूरस्थ फेलोशिप जो छात्रों को कृषि-तकनीक स्टार्टअप्स से जोड़ती है — कृषि पृष्ठभूमि वरीयता है, अनिवार्य नहीं।",
+         es:"Beca remota que conecta a estudiantes con empresas de agritech que trabajan en herramientas regionales de cultivo y clima.",
+         sw:"Ufadhili wa mbali unaounganisha wanafunzi na kampuni za teknolojia ya kilimo zinazofanya kazi kuhusu zana za mazao na hali ya hewa za kikanda."}
+  },
+  {
+    id:5, title:"UI/UX Design Sprint", local:{hi:"यूआई/यूएक्स डिज़ाइन स्प्रिंट", es:"Sprint de Diseño UI/UX", sw:"Mashindano ya Usanifu wa UI/UX"},
+    field:"design", edu:["ug","diploma","12th"], type:"Online Hackathon", remote:true,
+    deadline:"Closes in 9 days",
+    why:{en:"Fully remote, beginner track available — judged on prototypes, no coding required.",
+         hi:"पूरी तरह से दूरस्थ, शुरुआती ट्रैक उपलब्ध — प्रोटोटाइप पर निर्णय, कोडिंग ज़रूरी नहीं।",
+         es:"Totalmente remoto, con categoría para principiantes — se evalúan prototipos, no requiere programación.",
+         sw:"Mbali kabisa, kuna kiwango cha wanaoanza — hupimwa kwa michoro, hauhitaji usimbaji."}
+  },
+  {
+    id:6, title:"Small Business Plan Challenge", local:{hi:"लघु व्यवसाय योजना चैलेंज", es:"Desafío de Plan de Negocios para Pequeñas Empresas", sw:"Changamoto ya Mpango wa Biashara Ndogo"},
+    field:"business", edu:["ug","12th"], type:"Govt Challenge", remote:false,
+    deadline:"Closes in 25 days",
+    why:{en:"District-level rounds mean you compete against local applicants first, not the whole country — better odds for first-time entrants.",
+         hi:"ज़िला-स्तरीय दौर का मतलब है पहले स्थानीय आवेदकों से प्रतिस्पर्धा, पूरे देश से नहीं।",
+         es:"Las rondas a nivel distrital significan que primero compites contra postulantes locales, no contra todo el país.",
+         sw:"Raundi za ngazi ya wilaya zinamaanisha unashindana kwanza na waombaji wa eneo lako, si nchi nzima."}
+  }
+];
+
+const steps = [
+  {label:"Fetching listings", detail:"Scanning global and regional opportunity platforms and government portals for new postings."},
+  {label:"Filtering by your profile", detail:"Matching field, education level, and remote/in-person eligibility against your inputs."},
+  {label:"Ranking by relevance", detail:"Scoring each result on fit, deadline urgency, and entry barrier for first-time applicants."},
+  {label:"Translating & simplifying", detail:"Rewriting each listing in your selected language, removing jargon."},
+  {label:"Explaining each match", detail:"Generating a plain-language reason for why each opportunity fits you specifically."}
+];
+
+function runAgent(){
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  const trace = document.getElementById('trace');
+  trace.innerHTML = '';
+  trace.classList.add('show');
+  document.getElementById('results').classList.remove('show');
+
+  steps.forEach((s, i) => {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'step';
+      el.innerHTML = `<div class="dot"></div><div><b>${s.label}</b><br>${s.detail}</div>`;
+      trace.appendChild(el);
+      requestAnimationFrame(()=> el.classList.add('in'));
+      if(i === steps.length - 1){
+        setTimeout(()=>{ showResults(); btn.disabled = false; }, 500);
+      }
+    }, i * 480);
+  });
+}
+
+function showResults(){
+  const field = document.getElementById('field').value;
+  const edu = document.getElementById('edu').value;
+  const lang = document.getElementById('lang').value;
+
+  let matches = DB.filter(o => o.field === field && o.edu.includes(edu));
+  if(matches.length === 0){ matches = DB.filter(o => o.edu.includes(edu)); }
+  matches = matches.slice(0,4);
+
+  const cardsEl = document.getElementById('cards');
+  cardsEl.innerHTML = '';
+  matches.forEach(o => {
+    const localTitle = lang === 'en' ? o.title : o.local[lang];
+    const why = o.why[lang] || o.why.en;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="top">
+        <div>
+          <h3>${o.title}</h3>
+          <p class="local">${localTitle}</p>
+        </div>
+        <span class="badge">${o.type}</span>
+      </div>
+      <div class="meta">
+        <span>📍 ${o.remote ? 'Remote' : 'In-person rounds'}</span>
+        <span>🗓 ${o.deadline}</span>
+      </div>
+      <div class="why"><b>Why this fits you:</b> ${why}</div>
+    `;
+    cardsEl.appendChild(card);
+  });
+  document.getElementById('results').classList.add('show');
+}
+</script>
+</body>
+</html>
