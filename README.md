@@ -43,4 +43,4 @@ HTML/CSS/JS (vanilla, no framework dependency), Google Fonts (Fraunces, Noto Ser
 
 ## Author
 
-Built solo by Krishna Jha for the GSSoC / Kaggle AI Agents Capstone window.
+Built solo by Krishna Jha for the Kaggle AI Agents Capstone window.
