@@ -2,290 +2,475 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Beacon | Opportunity Agent</title>
+<title>Beacon — Opportunity Agent</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Noto+Serif+Devanagari:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#FBF6EE;
-    --ink:#2B2118;
-    --marigold:#E08E1D;
-    --teal:#1F6F6B;
-    --stone:#D8CBB3;
-    --card:#FFFCF5;
-    --good:#3D7A4F;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:#F9F6F0;
+  color:#0F1F3D;
+  font-family:'Source Serif 4',Georgia,serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
 
-  header{display:flex;align-items:center;gap:18px;margin-bottom:8px;}
-  .post{
-    width:54px;height:54px;border-radius:8px;
-    background:var(--teal);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-size:26px;flex-shrink:0;
-  }
-  h1{
-    font-family:'Fraunces',serif;font-weight:700;font-size:34px;margin:0;
-    letter-spacing:-0.01em;
-  }
-  .tagline{font-size:15px;color:#6b5d4d;margin:4px 0 0;}
-  .lede{
-    margin:28px 0 36px;padding:18px 20px;border-left:3px solid var(--marigold);
-    background:var(--card);border-radius:0 8px 8px 0;font-size:15px;line-height:1.6;color:#473a2c;
-  }
+/* ── Layout ── */
+.page{max-width:860px;margin:0 auto;padding:48px 24px 100px;}
 
-  .panel{
-    background:var(--card);border:1px solid var(--stone);border-radius:14px;
-    padding:26px;margin-bottom:30px;
-  }
-  .panel h2{font-family:'Fraunces',serif;font-size:20px;margin:0 0 18px;}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#8a7a64;font-weight:600;display:block;margin-bottom:6px;}
-  select, input{
-    width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--stone);
-    background:#fff;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);
-  }
-  button.run{
-    margin-top:20px;width:100%;padding:14px;border:none;border-radius:9px;
-    background:var(--marigold);color:#2B2118;font-weight:700;font-size:15px;
-    cursor:pointer;transition:transform .12s ease;font-family:'Inter',sans-serif;
-  }
-  button.run:hover{transform:translateY(-1px);}
-  button.run:disabled{opacity:.5;cursor:default;transform:none;}
+/* ── Masthead ── */
+.masthead{
+  border-top:3px solid #0F1F3D;
+  border-bottom:1px solid #C8C0B0;
+  padding:20px 0 16px;
+  margin-bottom:40px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{display:flex;align-items:center;gap:14px;}
+.beacon-icon{
+  width:44px;height:44px;
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+}
+.tower{width:4px;height:28px;background:#0F1F3D;border-radius:2px;}
+.light{
+  width:14px;height:14px;border-radius:50%;
+  background:#F5A623;
+  box-shadow:0 0 0 3px rgba(245,166,35,.25);
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+}
+.base{width:18px;height:4px;background:#0F1F3D;border-radius:1px;margin-top:2px;}
+.brand-name{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:28px;
+  letter-spacing:-.02em;color:#0F1F3D;line-height:1;
+}
+.brand-tagline{
+  font-family:'Source Serif 4',serif;font-style:italic;font-weight:300;
+  font-size:13px;color:#6B7A9A;line-height:1.4;max-width:360px;text-align:right;
+}
 
-  .trace{margin:24px 0;display:none;}
-  .trace.show{display:block;}
-  .step{
-    display:flex;gap:12px;align-items:flex-start;padding:10px 0;
-    border-bottom:1px dashed var(--stone);font-size:13.5px;color:#5b4d3c;
-    opacity:0;transform:translateY(4px);transition:opacity .35s ease, transform .35s ease;
-  }
-  .step.in{opacity:1;transform:none;}
-  .step .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0;}
-  .step b{color:var(--ink);}
+/* ── Lede ── */
+.lede{
+  font-size:18px;font-weight:300;line-height:1.6;
+  color:#2C3E5D;
+  border-left:2px solid #F5A623;
+  padding-left:18px;
+  margin-bottom:40px;
+}
 
-  .results{display:none;}
-  .results.show{display:block;}
-  .results h2{font-family:'Fraunces',serif;font-size:21px;margin:30px 0 14px;}
-  .card{
-    background:var(--card);border:1px solid var(--stone);border-radius:12px;
-    padding:20px 22px;margin-bottom:14px;position:relative;
-  }
-  .card .top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;}
-  .card h3{font-family:'Fraunces',serif;font-size:18px;margin:0 0 2px;}
-  .card .local{font-size:15px;color:var(--teal);margin:0 0 10px;font-weight:500;}
-  .badge{
-    background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;
-    border-radius:99px;white-space:nowrap;letter-spacing:.02em;
-  }
-  .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:#7a6c58;margin:8px 0 12px;}
-  .why{
-    font-size:13.5px;background:#fff;border:1px solid var(--stone);border-radius:8px;
-    padding:10px 12px;color:#473a2c;line-height:1.5;
-  }
-  .why b{color:var(--good);}
-  footer{margin-top:50px;border-top:1px solid var(--stone);padding-top:18px;font-size:12.5px;color:#8a7a64;line-height:1.6;}
+/* ── Key panel ── */
+.keypanel{
+  background:#fff;
+  border:1px solid #DDD8CE;
+  padding:20px 22px;
+  margin-bottom:36px;
+}
+.keypanel-label{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:#6B7A9A;
+  margin-bottom:8px;
+}
+.keypanel p{font-size:13.5px;color:#4A5568;line-height:1.55;margin-bottom:12px;}
+.keypanel p a{color:#0F1F3D;font-weight:600;}
+.keyrow{display:flex;gap:8px;}
+.keyrow input{
+  flex:1;padding:9px 12px;
+  border:1px solid #C8C0B0;
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  color:#0F1F3D;background:#F9F6F0;
+  outline:none;
+}
+.keyrow input:focus{border-color:#0F1F3D;}
+.modebadge{
+  display:inline-block;margin-top:10px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  padding:3px 8px;border:1px solid;
+}
+.modebadge.live{color:#2D6A4F;border-color:#2D6A4F;background:#EBF5EF;}
+.modebadge.sim{color:#92600A;border-color:#D4A017;background:#FEF9EB;}
+
+/* ── Profile form ── */
+.section-label{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:#6B7A9A;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:#DDD8CE;}
+.form-panel{margin-bottom:32px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;}
+.form-field label{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:#4A5568;
+  display:block;margin-bottom:5px;
+}
+select{
+  width:100%;padding:10px 12px;
+  border:1px solid #C8C0B0;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B7A9A'/%3E%3C/svg%3E") no-repeat right 12px center;
+  appearance:none;-webkit-appearance:none;
+  font-family:'Source Serif 4',serif;font-size:14px;color:#0F1F3D;
+  cursor:pointer;outline:none;
+}
+select:focus{border-color:#0F1F3D;}
+
+.run-btn{
+  margin-top:22px;width:100%;
+  padding:14px 24px;
+  background:#0F1F3D;color:#F9F6F0;
+  border:none;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:14px;
+  letter-spacing:.06em;text-transform:uppercase;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:background .15s;
+}
+.run-btn:hover{background:#1A3460;}
+.run-btn:disabled{background:#9AAABB;cursor:default;}
+.run-btn .arrow{font-size:18px;line-height:1;}
+
+/* ── Agent trace ── */
+.trace-wrap{display:none;margin-bottom:36px;}
+.trace-wrap.show{display:block;}
+.trace-header{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:#6B7A9A;
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.trace-header::after{content:'';flex:1;height:1px;background:#DDD8CE;}
+.trace-steps{padding-left:0;list-style:none;}
+.trace-step{
+  display:flex;gap:0;
+  opacity:0;transform:translateY(3px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.trace-step.in{opacity:1;transform:none;}
+.trace-left{display:flex;flex-direction:column;align-items:center;margin-right:14px;flex-shrink:0;}
+.trace-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#F5A623;border:2px solid #0F1F3D;
+  flex-shrink:0;margin-top:4px;
+}
+.trace-dot.err{background:#C0392B;border-color:#C0392B;}
+.trace-line{flex:1;width:2px;background:#DDD8CE;margin:3px 0;}
+.trace-step:last-child .trace-line{display:none;}
+.trace-content{padding-bottom:16px;}
+.trace-content b{
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;
+  color:#0F1F3D;display:block;margin-bottom:2px;
+}
+.trace-content span{font-size:13px;color:#6B7A9A;font-style:italic;}
+
+/* ── Results ── */
+.results-wrap{display:none;}
+.results-wrap.show{display:block;}
+.results-header{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:#6B7A9A;
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.results-header::after{content:'';flex:1;height:1px;background:#DDD8CE;}
+
+.opp-card{
+  border-top:1px solid #DDD8CE;
+  padding:20px 0;
+}
+.opp-card:last-child{border-bottom:1px solid #DDD8CE;}
+.opp-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:6px;}
+.opp-title{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:19px;
+  color:#0F1F3D;line-height:1.2;
+}
+.opp-type{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  padding:3px 8px;border:1px solid #0F1F3D;color:#0F1F3D;
+  white-space:nowrap;flex-shrink:0;margin-top:3px;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.opp-local{
+  font-family:'Source Serif 4',serif;font-size:15px;font-style:italic;
+  color:#6B7A9A;margin-bottom:10px;
+}
+.opp-meta{
+  display:flex;gap:18px;flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  color:#9AAABB;margin-bottom:12px;
+}
+.opp-why{
+  font-size:14px;color:#2C3E5D;line-height:1.55;
+  padding:12px 14px;
+  background:#fff;
+  border-left:2px solid #F5A623;
+}
+.opp-why strong{color:#0F1F3D;font-weight:600;}
+
+/* ── Footer ── */
+footer{
+  margin-top:60px;
+  border-top:1px solid #C8C0B0;
+  padding-top:20px;
+  font-size:12.5px;color:#9AAABB;line-height:1.6;
+  font-family:'Source Serif 4',serif;font-style:italic;
+}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="page">
 
-  <header>
-    <div class="post">B</div>
-    <div>
-      <h1>Beacon</h1>
-      <p class="tagline">An agent that finds, ranks, translates, and explains opportunities — for students anywhere the listings don't reach.</p>
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="brand">
+      <div class="beacon-icon">
+        <div class="light"></div>
+        <div class="tower"></div>
+        <div class="base"></div>
+      </div>
+      <div class="brand-name">Beacon</div>
     </div>
-  </header>
-
-  <div class="lede">
-    Hackathons, internships, and youth programs exist all over the world — but most listings are posted in one or two dominant languages, on platforms that skew toward students already in well-connected cities and institutions. Students in rural districts, smaller towns, and underserved regions of any country are routinely left out, not for lack of ability, but for lack of someone translating and filtering on their behalf. Beacon is an agent that does that work automatically.
+    <div class="brand-tagline">An opportunity agent for students<br>anywhere the listings don't reach</div>
   </div>
 
-  <div class="panel">
-    <h2>Tell the agent about yourself</h2>
-    <div class="grid">
-      <div>
+  <!-- Lede -->
+  <p class="lede">
+    Hackathons, internships, and youth programs exist globally — but they're listed in one or two dominant languages, on platforms that weren't built for students in smaller cities or rural districts. Beacon is an agent that fetches those listings, filters and ranks them against your profile, translates them, and explains why each one fits you specifically.
+  </p>
+
+  <!-- API key panel -->
+  <div class="keypanel">
+    <div class="keypanel-label">API Key</div>
+    <p>
+      This demo calls <strong>Gemini</strong> live for all filtering, ranking, translation, and explanation — the reasoning is a real model, not a script. Paste your own key to activate it (free at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>). The key stays in your browser and is sent only directly to Google's API — never to any other server. Leave blank to see the simulated version instead.
+    </p>
+    <div class="keyrow">
+      <input type="password" id="apiKey" placeholder="AIza...">
+    </div>
+    <span class="modebadge sim" id="modePill">○ simulated mode</span>
+  </div>
+
+  <!-- Profile form -->
+  <div class="form-panel">
+    <div class="section-label">Your profile</div>
+    <div class="form-grid">
+      <div class="form-field">
         <label>Region</label>
         <select id="region">
-          <option value="south-asia">South Asia</option>
-          <option value="latin-america">Latin America</option>
-          <option value="east-africa">East Africa</option>
-          <option value="southeast-asia">Southeast Asia</option>
+          <option value="South Asia">South Asia</option>
+          <option value="Latin America">Latin America</option>
+          <option value="East Africa">East Africa</option>
+          <option value="Southeast Asia">Southeast Asia</option>
         </select>
       </div>
-      <div>
-        <label>Preferred Language</label>
+      <div class="form-field">
+        <label>Preferred language</label>
         <select id="lang">
-          <option value="hi">Hindi</option>
-          <option value="es">Spanish</option>
-          <option value="sw">Swahili</option>
-          <option value="en">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Swahili">Swahili</option>
+          <option value="English">English</option>
         </select>
       </div>
-      <div>
-        <label>Education Level</label>
+      <div class="form-field">
+        <label>Education level</label>
         <select id="edu">
-          <option value="ug">Undergraduate</option>
-          <option value="diploma">Diploma / Vocational</option>
-          <option value="12th">Secondary / Pre-university</option>
+          <option value="Undergraduate">Undergraduate</option>
+          <option value="Diploma / Vocational">Diploma / Vocational</option>
+          <option value="Secondary / Pre-university">Secondary / Pre-university</option>
         </select>
       </div>
-      <div>
-        <label>Field of Interest</label>
+      <div class="form-field">
+        <label>Field of interest</label>
         <select id="field">
-          <option value="cs">Computer Science / IT</option>
-          <option value="agri">Agriculture & Allied</option>
-          <option value="design">Design / Creative</option>
-          <option value="business">Business / Commerce</option>
+          <option value="Computer Science / IT">Computer Science / IT</option>
+          <option value="Agriculture & Allied">Agriculture & Allied</option>
+          <option value="Design / Creative">Design / Creative</option>
+          <option value="Business / Commerce">Business / Commerce</option>
         </select>
       </div>
     </div>
-    <button class="run" id="runBtn" onclick="runAgent()">Find opportunities for me</button>
+    <button class="run-btn" id="runBtn" onclick="runAgent()">
+      <span>Find opportunities</span><span class="arrow">→</span>
+    </button>
   </div>
 
-  <div class="trace" id="trace"></div>
+  <!-- Agent trace -->
+  <div class="trace-wrap" id="traceWrap">
+    <div class="trace-header">Agent trace</div>
+    <ul class="trace-steps" id="traceSteps"></ul>
+  </div>
 
-  <div class="results" id="results">
-    <h2>Recommended for you</h2>
+  <!-- Results -->
+  <div class="results-wrap" id="resultsWrap">
+    <div class="results-header">Matched for you</div>
     <div id="cards"></div>
   </div>
 
   <footer>
-    <b>How this demo works:</b> this is a rule-based simulation of the agent pipeline for demo purposes — the filtering, ranking, and "why this matches you" reasoning run on a small local logic layer instead of a live LLM call, and translated text is pulled from a pre-built table rather than a live translation API. In the production build, the same four steps (Fetch → Filter & Rank → Translate & Simplify → Explain) are handled by an LLM agent that pulls live listings from global and regional opportunity platforms, reasons over each student's profile to score relevance, and generates the plain-language explanation per result in their language.
+    Step 1 (Fetch) uses a fixed seed dataset of six representative opportunity types modeled on real program structures across South Asia, Latin America, and East Africa. Steps 2–4 (Filter & Rank, Translate, Explain) are a live Gemini call when a key is provided — real model reasoning over your profile, not templates. Without a key, the same steps run through local rule-based logic, clearly marked above.
   </footer>
 </div>
 
 <script>
 const DB = [
-  {
-    id:1, title:"Global Open Source Mentorship Program", local:{hi:"वैश्विक ओपन सोर्स मेंटरशिप कार्यक्रम", es:"Programa Global de Mentoría en Código Abierto", sw:"Mpango wa Kimataifa wa Ushauri wa Open Source"},
-    field:"cs", edu:["ug","diploma"], type:"Open Source Program", remote:true,
-    deadline:"Rolling entry",
-    why:{en:"Beginner-friendly open source program with mentors — no prior contribution experience required.",
-         hi:"शुरुआती लोगों के लिए उपयुक्त ओपन सोर्स प्रोग्राम, मेंटर्स के साथ — पहले के अनुभव की ज़रूरत नहीं।",
-         es:"Programa de código abierto apto para principiantes, con mentores — no se requiere experiencia previa.",
-         sw:"Mpango wa open source unaofaa kwa wanaoanza, wenye washauri — hauhitaji uzoefu wa awali."}
-  },
-  {
-    id:2, title:"National Student Hackathon", local:{hi:"राष्ट्रीय छात्र हैकाथॉन", es:"Hackathon Nacional Estudiantil", sw:"Hekathoni ya Kitaifa ya Wanafunzi"},
-    field:"cs", edu:["ug","diploma"], type:"National Hackathon", remote:false,
-    deadline:"Opens annually",
-    why:{en:"Government- or university-run hackathon with problem statements reserved for rural development and agri-tech — strong fit for first-time hackers from smaller institutions.",
-         hi:"सरकार या विश्वविद्यालय द्वारा आयोजित हैकाथॉन, ग्रामीण विकास और कृषि-तकनीक के लिए समस्याएं शामिल।",
-         es:"Hackathon organizado por el gobierno o universidades, con temas reservados para desarrollo rural y agritech.",
-         sw:"Hekathoni inayoendeshwa na serikali au chuo kikuu, yenye matatizo yaliyotengwa kwa maendeleo ya vijijini."}
-  },
-  {
-    id:3, title:"Youth Skills & Paid Internship Scheme", local:{hi:"युवा कौशल और सवेतन इंटर्नशिप योजना", es:"Programa de Pasantías Pagadas para Jóvenes", sw:"Mpango wa Mafunzo ya Kazi Yenye Malipo kwa Vijana"},
-    field:"business", edu:["ug","diploma"], type:"Govt Internship Scheme", remote:false,
-    deadline:"Rolling entry",
-    why:{en:"Government-backed paid internship scheme with placements specifically reserved for students outside major cities.",
-         hi:"सरकार समर्थित सवेतन इंटर्नशिप योजना, बड़े शहरों के बाहर के छात्रों के लिए आरक्षित सीटें।",
-         es:"Programa de pasantías pagadas respaldado por el gobierno, con plazas reservadas para estudiantes fuera de las grandes ciudades.",
-         sw:"Mpango wa mafunzo ya kazi wenye malipo unaoungwa mkono na serikali, wenye nafasi maalum kwa wanafunzi nje ya miji mikuu."}
-  },
-  {
-    id:4, title:"Digital Agriculture Fellowship", local:{hi:"डिजिटल कृषि फेलोशिप", es:"Beca de Agricultura Digital", sw:"Ufadhili wa Kilimo cha Kidijitali"},
-    field:"agri", edu:["ug","diploma","12th"], type:"Fellowship", remote:true,
-    deadline:"Closes in 18 days",
-    why:{en:"Remote fellowship pairing students with agri-tech ventures working on regional crop and weather tools — agriculture background preferred but not required.",
-         hi:"दूरस्थ फेलोशिप जो छात्रों को कृषि-तकनीक स्टार्टअप्स से जोड़ती है — कृषि पृष्ठभूमि वरीयता है, अनिवार्य नहीं।",
-         es:"Beca remota que conecta a estudiantes con empresas de agritech que trabajan en herramientas regionales de cultivo y clima.",
-         sw:"Ufadhili wa mbali unaounganisha wanafunzi na kampuni za teknolojia ya kilimo zinazofanya kazi kuhusu zana za mazao na hali ya hewa za kikanda."}
-  },
-  {
-    id:5, title:"UI/UX Design Sprint", local:{hi:"यूआई/यूएक्स डिज़ाइन स्प्रिंट", es:"Sprint de Diseño UI/UX", sw:"Mashindano ya Usanifu wa UI/UX"},
-    field:"design", edu:["ug","diploma","12th"], type:"Online Hackathon", remote:true,
-    deadline:"Closes in 9 days",
-    why:{en:"Fully remote, beginner track available — judged on prototypes, no coding required.",
-         hi:"पूरी तरह से दूरस्थ, शुरुआती ट्रैक उपलब्ध — प्रोटोटाइप पर निर्णय, कोडिंग ज़रूरी नहीं।",
-         es:"Totalmente remoto, con categoría para principiantes — se evalúan prototipos, no requiere programación.",
-         sw:"Mbali kabisa, kuna kiwango cha wanaoanza — hupimwa kwa michoro, hauhitaji usimbaji."}
-  },
-  {
-    id:6, title:"Small Business Plan Challenge", local:{hi:"लघु व्यवसाय योजना चैलेंज", es:"Desafío de Plan de Negocios para Pequeñas Empresas", sw:"Changamoto ya Mpango wa Biashara Ndogo"},
-    field:"business", edu:["ug","12th"], type:"Govt Challenge", remote:false,
-    deadline:"Closes in 25 days",
-    why:{en:"District-level rounds mean you compete against local applicants first, not the whole country — better odds for first-time entrants.",
-         hi:"ज़िला-स्तरीय दौर का मतलब है पहले स्थानीय आवेदकों से प्रतिस्पर्धा, पूरे देश से नहीं।",
-         es:"Las rondas a nivel distrital significan que primero compites contra postulantes locales, no contra todo el país.",
-         sw:"Raundi za ngazi ya wilaya zinamaanisha unashindana kwanza na waombaji wa eneo lako, si nchi nzima."}
-  }
+  { id:1, title:"Global Open Source Mentorship Program", field:"Computer Science / IT", edu:["Undergraduate","Diploma / Vocational"], type:"Open Source", remote:true, deadline:"Rolling entry", desc:"Beginner-friendly open source program with assigned mentors and no prior contribution experience required." },
+  { id:2, title:"National Student Hackathon", field:"Computer Science / IT", edu:["Undergraduate","Diploma / Vocational"], type:"Hackathon", remote:false, deadline:"Opens annually", desc:"Government- or university-run hackathon with problem statements reserved for rural development and agri-tech." },
+  { id:3, title:"Youth Skills & Paid Internship Scheme", field:"Business / Commerce", edu:["Undergraduate","Diploma / Vocational"], type:"Internship", remote:false, deadline:"Rolling entry", desc:"Government-backed paid internship scheme with placements reserved for students outside major cities." },
+  { id:4, title:"Digital Agriculture Fellowship", field:"Agriculture & Allied", edu:["Undergraduate","Diploma / Vocational","Secondary / Pre-university"], type:"Fellowship", remote:true, deadline:"Closes in 18 days", desc:"Remote fellowship pairing students with agri-tech ventures building regional crop and weather tools." },
+  { id:5, title:"UI/UX Design Sprint", field:"Design / Creative", edu:["Undergraduate","Diploma / Vocational","Secondary / Pre-university"], type:"Hackathon", remote:true, deadline:"Closes in 9 days", desc:"Fully remote design sprint with a beginner track, judged on prototypes, no coding required." },
+  { id:6, title:"Small Business Plan Challenge", field:"Business / Commerce", edu:["Undergraduate","Secondary / Pre-university"], type:"Challenge", remote:false, deadline:"Closes in 25 days", desc:"District-level rounds mean entrants compete against local applicants first, not the whole country." }
 ];
 
-const steps = [
-  {label:"Fetching listings", detail:"Scanning global and regional opportunity platforms and government portals for new postings."},
-  {label:"Filtering by your profile", detail:"Matching field, education level, and remote/in-person eligibility against your inputs."},
-  {label:"Ranking by relevance", detail:"Scoring each result on fit, deadline urgency, and entry barrier for first-time applicants."},
-  {label:"Translating & simplifying", detail:"Rewriting each listing in your selected language, removing jargon."},
-  {label:"Explaining each match", detail:"Generating a plain-language reason for why each opportunity fits you specifically."}
-];
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
-function runAgent(){
-  const btn = document.getElementById('runBtn');
-  btn.disabled = true;
-  const trace = document.getElementById('trace');
-  trace.innerHTML = '';
-  trace.classList.add('show');
-  document.getElementById('results').classList.remove('show');
-
-  steps.forEach((s, i) => {
-    setTimeout(() => {
-      const el = document.createElement('div');
-      el.className = 'step';
-      el.innerHTML = `<div class="dot"></div><div><b>${s.label}</b><br>${s.detail}</div>`;
-      trace.appendChild(el);
-      requestAnimationFrame(()=> el.classList.add('in'));
-      if(i === steps.length - 1){
-        setTimeout(()=>{ showResults(); btn.disabled = false; }, 500);
-      }
-    }, i * 480);
-  });
+function addStep(label, detail, isErr){
+  const ul = document.getElementById('traceSteps');
+  const li = document.createElement('li');
+  li.className = 'trace-step';
+  li.innerHTML = `
+    <div class="trace-left">
+      <div class="trace-dot${isErr?' err':''}"></div>
+      <div class="trace-line"></div>
+    </div>
+    <div class="trace-content">
+      <b>${label}</b>
+      <span>${detail}</span>
+    </div>`;
+  ul.appendChild(li);
+  requestAnimationFrame(()=>li.classList.add('in'));
 }
 
-function showResults(){
-  const field = document.getElementById('field').value;
-  const edu = document.getElementById('edu').value;
-  const lang = document.getElementById('lang').value;
+document.getElementById('apiKey').addEventListener('input', e=>{
+  const pill = document.getElementById('modePill');
+  if(e.target.value.trim().length > 10){
+    pill.textContent = '● live mode — Gemini connected';
+    pill.className = 'modebadge live';
+  } else {
+    pill.textContent = '○ simulated mode';
+    pill.className = 'modebadge sim';
+  }
+});
 
-  let matches = DB.filter(o => o.field === field && o.edu.includes(edu));
-  if(matches.length === 0){ matches = DB.filter(o => o.edu.includes(edu)); }
-  matches = matches.slice(0,4);
+async function runAgent(){
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  document.getElementById('traceSteps').innerHTML = '';
+  document.getElementById('traceWrap').classList.add('show');
+  document.getElementById('resultsWrap').classList.remove('show');
+  document.getElementById('cards').innerHTML = '';
 
-  const cardsEl = document.getElementById('cards');
-  cardsEl.innerHTML = '';
-  matches.forEach(o => {
-    const localTitle = lang === 'en' ? o.title : o.local[lang];
-    const why = o.why[lang] || o.why.en;
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="top">
-        <div>
-          <h3>${o.title}</h3>
-          <p class="local">${localTitle}</p>
-        </div>
-        <span class="badge">${o.type}</span>
-      </div>
-      <div class="meta">
-        <span>📍 ${o.remote ? 'Remote' : 'In-person rounds'}</span>
-        <span>🗓 ${o.deadline}</span>
-      </div>
-      <div class="why"><b>Why this fits you:</b> ${why}</div>
-    `;
-    cardsEl.appendChild(card);
+  const profile = {
+    region: document.getElementById('region').value,
+    language: document.getElementById('lang').value,
+    education: document.getElementById('edu').value,
+    field: document.getElementById('field').value
+  };
+  const apiKey = document.getElementById('apiKey').value.trim();
+
+  addStep('fetch()', `Loaded ${DB.length} listings from seed dataset.`);
+  await sleep(380);
+
+  let results;
+  if(apiKey.length > 10){
+    addStep('rank_and_translate()', `Calling Gemini with student profile — ${profile.field} / ${profile.education} / ${profile.language}`);
+    try{
+      results = await callGemini(apiKey, profile);
+      addStep('response received', `${results.length} matches ranked, translated, explained.`);
+    } catch(err){
+      addStep('gemini error', err.message, true);
+      addStep('fallback()', 'Switching to local simulation.');
+      await sleep(300);
+      results = simulateFallback(profile);
+    }
+  } else {
+    addStep('rank_and_translate()', 'No API key — running local rule-based simulation.');
+    await sleep(500);
+    results = simulateFallback(profile);
+    addStep('simulation complete', `${results.length} listings matched and scored locally.`);
+  }
+
+  await sleep(280);
+  renderCards(results);
+  btn.disabled = false;
+}
+
+async function callGemini(apiKey, profile){
+  const prompt = `You are an opportunity-matching agent helping an underserved student find hackathons, internships, and fellowships.
+
+Student profile:
+- Region: ${profile.region}
+- Preferred language: ${profile.language}
+- Education level: ${profile.education}
+- Field of interest: ${profile.field}
+
+Listings JSON:
+${JSON.stringify(DB, null, 2)}
+
+Instructions:
+1. Filter listings genuinely relevant to this student's field and education (use judgment — a Diploma student can be eligible for things listed as "undergraduate or equivalent").
+2. Rank by fit + deadline urgency, most relevant first. Max 4.
+3. "localTitle": translate the listing title into ${profile.language}. If English, repeat the title.
+4. "why": 1–2 sentences in ${profile.language} explaining specifically why this fits THIS student.
+
+Return ONLY a valid JSON array, no markdown, no commentary:
+[{"id":<n>,"title":"<original>","localTitle":"<translated>","type":"<type>","remote":<bool>,"deadline":"<deadline>","why":"<reason>"}]`;
+
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.35}})
   });
-  document.getElementById('results').classList.add('show');
+  if(!res.ok){
+    const t = await res.text();
+    throw new Error(`API ${res.status}: ${t.slice(0,120)}`);
+  }
+  const data = await res.json();
+  const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const clean = raw.replace(/```json|```/g,'').trim();
+  try{ return JSON.parse(clean); }
+  catch(e){ throw new Error('Could not parse model response as JSON.'); }
+}
+
+function simulateFallback(profile){
+  let m = DB.filter(o=>o.field===profile.field && o.edu.includes(profile.education));
+  if(!m.length) m = DB.filter(o=>o.edu.includes(profile.education));
+  return m.slice(0,4).map(o=>({
+    ...o, localTitle:o.title,
+    why:`[Simulated] Matched on field and education level. ${o.desc}`
+  }));
+}
+
+function renderCards(list){
+  const wrap = document.getElementById('cards');
+  wrap.innerHTML = '';
+  if(!list||!list.length){
+    wrap.innerHTML='<p style="color:#C0392B;font-style:italic">No matches found — try a different field or education level.</p>';
+    document.getElementById('resultsWrap').classList.add('show');
+    return;
+  }
+  list.forEach(o=>{
+    const d = document.createElement('div');
+    d.className = 'opp-card';
+    d.innerHTML = `
+      <div class="opp-top">
+        <div class="opp-title">${o.title}</div>
+        <div class="opp-type">${o.type}</div>
+      </div>
+      <div class="opp-local">${o.localTitle!==o.title ? o.localTitle : ''}</div>
+      <div class="opp-meta">
+        <span>${o.remote?'Remote':'In-person'}</span>
+        <span>${o.deadline}</span>
+      </div>
+      <div class="opp-why"><strong>Why this fits you —</strong> ${o.why}</div>
+    `;
+    wrap.appendChild(d);
+  });
+  document.getElementById('resultsWrap').classList.add('show');
 }
 </script>
 </body>
